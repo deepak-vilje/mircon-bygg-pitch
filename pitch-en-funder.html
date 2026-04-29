@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="sv">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Mircon Bygg × ViljeTech — AI-driven mängdavtagning från K-ritningar</title>
+<title>Mircon Bygg × ViljeTech — AI quantity takeoff for structural drawings</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -48,6 +48,7 @@
     flex-direction: column;
   }
 
+  /* Chrome */
   .counter {
     position: fixed; bottom: 24px; right: 32px;
     font-family: 'JetBrains Mono', monospace;
@@ -69,6 +70,7 @@
     transition: width 200ms ease;
   }
 
+  /* Typography */
   h1 { font-size: 64px; font-weight: 700; letter-spacing: -0.025em; line-height: 1.05; color: var(--navy); }
   h2 { font-size: 40px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; color: var(--navy); margin-bottom: 32px; }
   h3 { font-size: 18px; font-weight: 600; color: var(--navy); }
@@ -91,6 +93,7 @@
   a { color: var(--accent); text-decoration: none; }
   a:hover { text-decoration: underline; }
 
+  /* Cover */
   .cover .frame-inner {
     justify-content: space-between;
     padding-top: 96px; padding-bottom: 96px;
@@ -122,6 +125,7 @@
     font-size: 16px; color: var(--navy); font-weight: 500;
   }
 
+  /* Two-column */
   .two-col {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -132,6 +136,7 @@
   .two-col.wide-left  { grid-template-columns: 1.2fr 0.8fr; }
   .two-col.wide-right { grid-template-columns: 0.8fr 1.2fr; }
 
+  /* Problem list */
   .num-list { display: flex; flex-direction: column; }
   .num-list > li {
     display: grid;
@@ -177,6 +182,7 @@
     font-size: 17px; color: var(--navy); font-weight: 500;
   }
 
+  /* Diagram slide */
   .diagram-slide .diagram-wrap {
     flex: 1;
     display: flex; align-items: center; justify-content: center;
@@ -191,6 +197,7 @@
     max-width: 100%; max-height: 100%; object-fit: contain;
   }
 
+  /* User journey */
   .journey-wrap {
     padding: 24px;
     background: var(--surface);
@@ -218,6 +225,7 @@
   .step h3 { margin-bottom: 6px; }
   .step p { font-size: 14px; color: var(--muted); }
 
+  /* Capabilities */
   .caps {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -240,6 +248,7 @@
   .cap h3 { font-size: 16px; }
   .cap p { font-size: 14px; color: var(--muted); }
 
+  /* Bleed image slides */
   .bleed { background: var(--surface); }
   .bleed .frame-inner {
     padding: 48px 56px;
@@ -268,6 +277,7 @@
   }
   .bleed .caption strong { color: var(--navy); font-weight: 600; }
 
+  /* Traceability / settings split */
   .shot-frame {
     border: 1px solid var(--rule);
     border-radius: 10px;
@@ -309,6 +319,7 @@
   .check-item h3 { font-size: 16px; margin-bottom: 4px; }
   .check-item p { font-size: 14px; color: var(--muted); }
 
+  /* Architecture */
   .local-callout {
     padding: 24px 28px;
     background: var(--navy);
@@ -323,6 +334,7 @@
   .local-callout h3 { color: #FFFFFF; margin-bottom: 8px; font-size: 20px; }
   .local-callout p  { color: rgba(255,255,255,0.75); font-size: 14px; }
 
+  /* Roadmap */
   .roadmap {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -342,6 +354,7 @@
   .road-item h3 { margin-bottom: 8px; }
   .road-item p { font-size: 14px; color: var(--muted); }
 
+  /* Thanks */
   .thanks .frame-inner { justify-content: center; padding-top: 80px; }
   .thanks h2 { font-size: 56px; letter-spacing: -0.025em; margin-bottom: 20px; }
   .thanks .sub { font-size: 18px; color: var(--muted); max-width: 600px; margin-bottom: 64px; }
@@ -369,6 +382,7 @@
     display: flex; justify-content: space-between; gap: 24px;
   }
 
+  /* Overview grid */
   .overview {
     position: fixed; inset: 0;
     background: rgba(14,27,46,0.96);
@@ -407,27 +421,24 @@
 
 <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
 <div class="counter" id="counter">01 / 12</div>
-<div style="position:fixed;top:16px;right:32px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#5B6B82;z-index:100;">
-  Version: <span style="color:#0E2D52;font-weight:600;margin-left:8px;">Fullständig (12)</span><a style="color:#1E5AA8;margin-left:8px;" href="./pitch-sv-short.html">Kort (7)</a>
-</div>
-<div class="hint">← →  ·  O översikt  ·  F fullskärm</div>
+<div class="hint">← →  ·  O overview  ·  F fullscreen</div>
 
 <div class="deck" id="deck">
 
   <!-- 1 · COVER -->
-  <section class="slide cover active" data-title="Omslag">
+  <section class="slide cover active" data-title="Cover">
     <div class="frame-inner">
       <div>
         <div class="cover-top">ViljeTech × Mircon Bygg</div>
-        <h1>AI-driven mängdavtagning från K-ritningar.</h1>
+        <h1>AI-powered quantity takeoff for structural drawings.</h1>
         <p class="cover-sub">
-          Ett färdigt lokalt skrivbordsverktyg som läser K-ritningar med AI-vision,
-          bygger en spårbar hierarkisk BOM och exporterar direkt till Wikells.
+          Days of manual quantity takeoff turned into minutes — with every number traceable
+          back to the drawing it came from. Runs on the calculator's laptop; no cloud.
         </p>
       </div>
       <div class="cover-bottom">
         <div class="col">
-          <span class="label">Byggt av</span>
+          <span class="label">Built by</span>
           <span class="val">ViljeTech</span>
         </div>
         <div class="col">
@@ -435,50 +446,50 @@
           <span class="val">Mircon Bygg</span>
         </div>
         <div class="col">
-          <span class="label">Stack</span>
-          <span class="val">FastAPI + React · lokal skrivbordsapp</span>
+          <span class="label">Runs on</span>
+          <span class="val">Local desktop · no cloud</span>
         </div>
       </div>
     </div>
   </section>
 
   <!-- 2 · PROBLEM -->
-  <section class="slide" data-title="Problemet">
+  <section class="slide" data-title="The problem">
     <div class="frame-inner">
-      <div class="slide-num">01 · Problemet</div>
-      <h2>Mängdavtagning är dagar av specialistarbete — och en vanlig felkälla i kalkylen.</h2>
+      <div class="slide-num">01 · The problem</div>
+      <h2>Quantity takeoff is days of specialist work — and a common source of calculation error.</h2>
 
       <div class="two-col wide-left">
         <ul class="num-list">
           <li>
             <span class="n">01</span>
             <div>
-              <h3>Cirka 300 positioner per medelprojekt</h3>
-              <p>Virket 8 ensamt: 42 K-ritningar, var och en med armeringsförteckningar, betongvolymer, infästningar och detaljer att räkna för hand.</p>
+              <h3>Mid-size projects carry around 300 line items</h3>
+              <p>Virket 8 alone: 42 structural drawings, each with rebar schedules, concrete volumes, embeds and fixings to tally by hand.</p>
             </div>
           </li>
           <li>
             <span class="n">02</span>
             <div>
-              <h3>Manuell läsning är långsam och felbenägen</h3>
-              <p>Kalkylatorer avläser armeringsdiametrar, betongtjocklekar och infästningsdetaljer — och skriver sedan in dem i Excel-mallar.</p>
+              <h3>Manual reading is slow and error-prone</h3>
+              <p>Calculators sight-read rebar diameters, concrete thickness and fastener details, then transcribe into Excel templates.</p>
             </div>
           </li>
           <li>
             <span class="n">03</span>
             <div>
-              <h3>Revisioner (KPM) spåras i lösa Excel-blad</h3>
-              <p>De flesta team lagrar KPM-ändringar i ad-hoc Excel-filer utan koppling tillbaka till ritningsområdet — svårt att verifiera senare.</p>
+              <h3>Revisions live in loose spreadsheets</h3>
+              <p>KPM revisions track changes across drawings; most teams keep these in ad-hoc Excel files with no link back to the drawing region.</p>
             </div>
           </li>
         </ul>
 
         <aside class="aside">
           <div class="stat">~300</div>
-          <div class="stat-unit">positioner</div>
-          <p>Per medelstort K-projekt. Var och en ska extraheras, verifieras och exporteras.</p>
+          <div class="stat-unit">line items</div>
+          <p>Per mid-size structural project. Each one has to be extracted, verified, and exported.</p>
           <div class="quote-block">
-            <p>Låt AI:n göra den första passningen. Kalkylatorn behåller kontrollen.</p>
+            <p>Let the AI take the first pass. The calculator stays in control.</p>
           </div>
         </aside>
       </div>
@@ -486,104 +497,104 @@
   </section>
 
   <!-- 3 · SOLUTION DIAGRAM -->
-  <section class="slide diagram-slide" data-title="Lösningen">
+  <section class="slide diagram-slide" data-title="The solution">
     <div class="frame-inner">
-      <div class="slide-num">02 · Lösningen, i en bild</div>
-      <h2>Från PDF-ritning till Wikells Excel på minuter.</h2>
+      <div class="slide-num">02 · The solution, in one image</div>
+      <h2>From PDF drawing to Wikells Excel in minutes.</h2>
       <p class="lede">
-        En AI-vision-pipeline läser ritningen i 300 DPI, extraherar armering, betong och detaljer med
-        källspårning, kalkylatorn verifierar inline och exporten går direkt till Wikells.
+        A vision-AI pipeline reads the drawing at 300 DPI, extracts rebar, concrete and details with source traceability,
+        lets the calculator verify inline, and exports directly to Wikells.
       </p>
       <div class="diagram-wrap">
-        <img src="./diagrams/value-flow.png" alt="Från PDF till Wikells Excel" />
+        <img src="./diagrams/value-flow.png" alt="From PDF to Wikells Excel" />
       </div>
     </div>
   </section>
 
   <!-- 4 · USER JOURNEY -->
-  <section class="slide" data-title="Användarresa">
+  <section class="slide" data-title="User journey">
     <div class="frame-inner">
-      <div class="slide-num">03 · Användarresa</div>
-      <h2>Tre steg — ritning in, verifierad BOM ut.</h2>
+      <div class="slide-num">03 · User journey</div>
+      <h2>Three steps — drawing in, verified BOM out.</h2>
 
       <div class="journey-wrap">
-        <img src="./diagrams/user-journey.png" alt="Användarresa" />
+        <img src="./diagrams/user-journey.png" alt="User journey" />
       </div>
 
       <div class="journey-steps">
         <div class="step">
-          <div class="n">01 — Importera</div>
-          <h3>Släpp K-ritningens PDF</h3>
-          <p>Flerfilsimport, automatisk uppdelning av sammanfogade PDF:er, AI-baserad K-kod-namngivning. Ritningsindex klart på sekunder.</p>
+          <div class="n">01 — Import</div>
+          <h3>Drop the K-drawing PDF</h3>
+          <p>Multi-file drop, auto-split merged PDFs, AI-assisted K-code naming. Drawing index ready in seconds.</p>
         </div>
         <div class="step">
-          <div class="n">02 — Analysera</div>
-          <h3>AI-vision extraherar BOM:en</h3>
-          <p>300 DPI-avläsning, autonom zoom, hierarkiska poster med Wikells-kapitelkoder. Varje post länkad till sitt område.</p>
+          <div class="n">02 — Analyze</div>
+          <h3>AI vision extracts the BOM</h3>
+          <p>300 DPI reading, autonomous zoom, hierarchical items with Wikells chapter codes. Every item linked to its region.</p>
         </div>
         <div class="step">
-          <div class="n">03 — Verifiera &amp; exportera</div>
-          <h3>Kalkylatorn verifierar och exporterar</h3>
-          <p>AI-poster markerade för granskning, inline redigera / acceptera / avvisa, revisionshistorik bevarad. Ett klick till Excel.</p>
+          <div class="n">03 — Verify &amp; export</div>
+          <h3>Calculator verifies, exports to Wikells</h3>
+          <p>AI rows flagged for review, inline edit / accept / reject, revision history preserved. One-click Excel export.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- 5 · CAPABILITIES -->
-  <section class="slide" data-title="Funktioner">
+  <section class="slide" data-title="Capabilities">
     <div class="frame-inner">
-      <div class="slide-num">04 · Levererade funktioner</div>
-      <h2>Åtta funktioner, i drift idag.</h2>
+      <div class="slide-num">04 · What's shipped</div>
+      <h2>What the tool does, in plain terms.</h2>
       <p class="lede" style="margin-bottom: 40px;">
-        Kalibrerade för en svensk kalkylators dagliga arbetsflöde.
+        Eight capabilities, all shipped and in use on the Virket 8 pilot.
       </p>
 
       <div class="caps">
-        <div class="cap"><div class="n">01</div><h3>PDF-visare för A1-format</h3><p>2384 × 1684 pt, smidig pan och zoom, JPEG-läge som fallback.</p></div>
-        <div class="cap"><div class="n">02</div><h3>AI-visionanalys</h3><p>GPT-5.4 eller Claude Opus 4.7 med autonomt zoom-beteende.</p></div>
-        <div class="cap"><div class="n">03</div><h3>Hierarkisk BOM</h3><p>Wikells kapitelkoder, automatisk numrering, grupperade poster.</p></div>
-        <div class="cap"><div class="n">04</div><h3>Annotationsöverlägg</h3><p>Varje BOM-rad fäst mot ett område. AI och manuella markeringar i samma färgkodade lager.</p></div>
-        <div class="cap"><div class="n">05</div><h3>Korsritningsanalys</h3><p>Följer MATERIAL- och typdetaljreferenser; attribuerar kvaliteter tillbaka till källans BOM-rad.</p></div>
-        <div class="cap"><div class="n">06</div><h3>Wikells Excel-export</h3><p>Fyrbladig arbetsbok och CSV i det format kalkylatorer redan använder.</p></div>
-        <div class="cap"><div class="n">07</div><h3>Tvåspråkigt gränssnitt</h3><p>Svenska och engelska med AI-driven översättningslager.</p></div>
-        <div class="cap"><div class="n">08</div><h3>Konfigurerbar AI-leverantör</h3><p>Växla OpenAI och Anthropic per projekt från GUI:t.</p></div>
+        <div class="cap"><div class="n">01</div><h3>Opens A1 structural drawings directly</h3><p>No re-exporting or format conversion — the calculator drops the PDF in and starts.</p></div>
+        <div class="cap"><div class="n">02</div><h3>AI reads the drawing</h3><p>Extracts rebar, concrete volumes, fasteners and details straight from the PDF page.</p></div>
+        <div class="cap"><div class="n">03</div><h3>BOM ready in Wikells format</h3><p>Items already grouped by Wikells chapter codes and numbered — matches the calculator's normal workbook.</p></div>
+        <div class="cap"><div class="n">04</div><h3>Every number points to a region</h3><p>AI and manual marks share one colour-coded layer. One click jumps from a row to the rectangle it came from.</p></div>
+        <div class="cap"><div class="n">05</div><h3>Follows references across drawings</h3><p>When a drawing says "material per K-01-0-001", the tool opens that sheet and reads the spec itself.</p></div>
+        <div class="cap"><div class="n">06</div><h3>One-click Excel export</h3><p>Four-sheet Wikells workbook plus CSV — ready to drop into the calculator's cost estimate.</p></div>
+        <div class="cap"><div class="n">07</div><h3>Swedish-first</h3><p>Swedish by default, English one click away. Swedish construction terminology, not translated-from-English.</p></div>
+        <div class="cap"><div class="n">08</div><h3>Runs on the calculator's laptop</h3><p>A single installer. No cloud, no subscription, no upload of project files.</p></div>
       </div>
     </div>
   </section>
 
   <!-- 6 · ANNOTATION OVERLAY -->
-  <section class="slide" data-title="Annotationsöverlägg">
+  <section class="slide" data-title="Annotation overlay">
     <div class="frame-inner">
-      <div class="slide-num">05 · Annotationsöverlägg</div>
-      <h2>Se exakt vad AI:n har sett.</h2>
-      <p class="lede">Varje BOM-rad är fäst mot ett område på ritningen. Inga siffror från en svart låda.</p>
+      <div class="slide-num">05 · Annotation overlay</div>
+      <h2>See exactly what the AI saw.</h2>
+      <p class="lede">Every BOM row pins to a region on the drawing. No black-box numbers.</p>
 
       <div class="two-col wide-left">
         <div class="shot-frame">
-          <img src="./screenshots/03-viewer-zoomed.png" alt="Annoterad ritningsvisare med AI-extraherade områden markerade" />
+          <img src="./screenshots/cropped/03-viewer-zoomed.png" alt="Annotated drawing viewer with AI-extracted regions highlighted" />
         </div>
 
         <div class="check-list">
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>Områdeslänkad per rad</h3>
-              <p>Ett klick från en BOM-rad hoppar till exakt den rektangel på ritningen som siffran kommer ifrån — och tillbaka igen.</p>
+              <h3>Region-linked, per row</h3>
+              <p>One click from a BOM row jumps to the exact rectangle the number came from — and back again.</p>
             </div>
           </div>
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>Färgkodade efter materialtyp</h3>
-              <p>Armering, betong, infästningar, nivåer, komponenter — varje lager har egen palett. Stäng av för att rensa vyn, slå på för granskning.</p>
+              <h3>Colour-coded by material type</h3>
+              <p>Rebar, concrete, fasteners, elevations, components — each layer has its own palette. Toggle off to declutter, back on for review.</p>
             </div>
           </div>
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>AI och manuella i samma lager</h3>
-              <p>Kalkylatorns markeringar ligger vid sidan av AI:ns förslag med bevarad härkomst; du vet alltid vilken som är vilken.</p>
+              <h3>AI and manual share one layer</h3>
+              <p>Calculator-drawn marks sit next to AI-proposed ones with provenance preserved; you always know which is which.</p>
             </div>
           </div>
         </div>
@@ -592,43 +603,43 @@
   </section>
 
   <!-- 7 · AI ANALYSIS + TRACEABILITY -->
-  <section class="slide" data-title="Analys och spårbarhet">
+  <section class="slide" data-title="Analysis &amp; traceability">
     <div class="frame-inner">
-      <div class="slide-num">06 · AI-analys och spårbarhet</div>
-      <h2>Varje post behåller sitt ursprung.</h2>
+      <div class="slide-num">06 · AI analysis and traceability</div>
+      <h2>Every line item keeps its receipts.</h2>
 
       <div class="two-col wide-left">
         <div class="shot-frame">
-          <img src="./screenshots/04-bom-table.png" alt="Hierarkisk BOM-tabell" />
+          <img src="./screenshots/cropped/04-bom-table.png" alt="Hierarchical BOM table" />
         </div>
 
         <div class="check-list">
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>Varje BOM-post länkar tillbaka</h3>
-              <p>Till exakt ritning, sida och område den extraherades från — ett klick för att hoppa till källan.</p>
+              <h3>Every BOM item links back</h3>
+              <p>To the exact drawing, page, and region it was extracted from — one click to jump to the source.</p>
             </div>
           </div>
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>AI-poster markerade "Behöver granskning"</h3>
-              <p>Kalkylatorn ser direkt vilka rader som är AI-förslagna vs. bekräftade. Förtroenderankning per post.</p>
+              <h3>AI items flagged "needs review"</h3>
+              <p>Calculator sees at a glance which rows are AI-proposed vs. confirmed. Confidence ranking per item.</p>
             </div>
           </div>
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>Verifiera, avvisa eller redigera inline</h3>
-              <p>Tangentbordsdrivet granskningsflöde. Kalkylatorn förblir ansvarig varje gång.</p>
+              <h3>Inline verify, reject, or edit</h3>
+              <p>Keyboard-driven review. The human stays the calculator of record.</p>
             </div>
           </div>
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>Revisionshistorik bevarad</h3>
-              <p>KPM-ändringar spåras över ritningsrevisioner; inget tappas bort mellan iterationer.</p>
+              <h3>Revision history preserved</h3>
+              <p>KPM changes are tracked across drawing revisions; nothing is lost between iterations.</p>
             </div>
           </div>
         </div>
@@ -637,29 +648,29 @@
   </section>
 
   <!-- 8 · CROSS-DRAWING ANALYSIS -->
-  <section class="slide" data-title="Korsritningsanalys">
+  <section class="slide" data-title="Cross-drawing analysis">
     <div class="frame-inner">
-      <div class="slide-num">07 · Korsritningsanalys</div>
-      <h2>AI:n följer korsreferenser för att hämta rätt värden.</h2>
-      <p class="lede">Betongklasser, armeringskvaliteter och typdetaljspecifikationer ligger sällan på ritningen framför dig. Verktyget läser den refererade ritningen och attribuerar specen tillbaka till BOM-raden.</p>
+      <div class="slide-num">07 · Cross-drawing analysis</div>
+      <h2>The AI follows references to pull in the right numbers.</h2>
+      <p class="lede">Concrete classes, rebar grades, and standard-detail specs rarely live on the drawing in front of you. The tool reads the referenced drawing, attributes the spec back to the BOM row.</p>
 
       <div class="two-col wide-left" style="align-items: start;">
         <div style="display: flex; flex-direction: column; gap: 14px;">
           <div class="local-callout">
-            <div class="label">KÄLLRITNING</div>
-            <h3>K-15-6-101 — grundsektion, dragstagsdetalj</h3>
-            <p>Visar armering Ø16 s150 kring dragstaget, hänvisar till "MATERIAL OCH ANVISNINGAR per K-01-0-001". Materialkvalitet finns inte på detta blad.</p>
+            <div class="label">SOURCE DRAWING</div>
+            <h3>K-15-6-101 — foundation section, tie-rod detail</h3>
+            <p>Shows rebar Ø16 s150 around the tie-rod, references "MATERIAL OCH ANVISNINGAR per K-01-0-001". Material grade not on this sheet.</p>
           </div>
           <div style="align-self: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent); letter-spacing: 0.04em;">
-            ↓&nbsp;&nbsp;AI:n öppnar den refererade ritningen
+            ↓&nbsp;&nbsp;AI opens the referenced drawing
           </div>
           <div class="local-callout" style="background: var(--accent);">
-            <div class="label">REFERERAD RITNING (följs autonomt)</div>
-            <h3>K-01-0-001 — allmänna anvisningar</h3>
-            <p>Löser upp <strong style="color:#fff;">K500 C-T</strong> lösarmeringskvalitet och <strong style="color:#fff;">NK500AB-W</strong> natarmering. Attribueras tillbaka till källritningens BOM-rader.</p>
+            <div class="label">REFERENCED DRAWING (opened automatically)</div>
+            <h3>K-01-0-001 — general notes</h3>
+            <p>Reads the rebar steel grade and mesh specification, then attributes them back to the correct BOM rows on the source drawing.</p>
           </div>
           <div style="align-self: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); letter-spacing: 0.04em;">
-            Syskonritning K-15-6-401 flaggas för kalkylatorn, följs inte.
+            Sibling K-15-6-401 flagged for the calculator, not chased.
           </div>
         </div>
 
@@ -667,22 +678,22 @@
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>Autonom korsreferensföljning</h3>
-              <p>När en ritning säger "MATERIAL per K-01-0-001" öppnar verktyget det bladet, läser specen och återupptar källextraktionen — ingen manuell inmatning.</p>
+              <h3>Autonomous cross-reference following</h3>
+              <p>When a drawing says "MATERIAL per K-01-0-001", the tool opens that sheet, reads the spec, and resumes the source extraction — no prompting needed.</p>
             </div>
           </div>
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>Kvaliteter lagras där de hör hemma</h3>
-              <p>Armeringskvalitet registreras mot den allmänna ritningen och attribueras tillbaka till detaljens BOM-rader — aldrig uppfunnen på detaljbladet.</p>
+              <h3>Grades stored where they belong</h3>
+              <p>Rebar quality is recorded against the general drawing and attributed back to the detail's BOM rows — never invented on the detail sheet.</p>
             </div>
           </div>
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>Syskon flaggas, jagas inte</h3>
-              <p>Angränsande referenser som inte bidrar till raden stannar flaggade för kalkylatorn — ingen bortkastad analysbudget.</p>
+              <h3>Siblings flagged, not chased</h3>
+              <p>Adjacent references that don't contribute to the row at hand stay flagged for the calculator — no wasted analysis budget.</p>
             </div>
           </div>
         </div>
@@ -691,80 +702,83 @@
   </section>
 
   <!-- 9 · CONFIGURABLE AI -->
-  <section class="slide" data-title="Konfigurerbar AI">
+  <section class="slide" data-title="Choose your AI">
     <div class="frame-inner">
-      <div class="slide-num">08 · Konfigurerbar AI-leverantör</div>
-      <h2>Byt leverantör per projekt — från GUI:t.</h2>
+      <div class="slide-num">08 · Choose your AI</div>
+      <h2>You pick the AI. Your data stays yours.</h2>
 
       <div class="two-col">
         <div class="check-list">
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>GUI-konfiguration, ingen filredigering</h3>
-              <p>Modell, API-nyckel och max tokens ställs in från en settings-modal.</p>
+              <h3>No vendor lock-in</h3>
+              <p>Switch between the major AI providers from a simple settings panel. No consultant call, no reinstall.</p>
             </div>
           </div>
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>OpenAI eller Anthropic</h3>
-              <p>GPT-5.4-vision eller Claude Opus 4.7 — välj rätt modell för projektet.</p>
+              <h3>Credentials stay on the laptop</h3>
+              <p>The calculator's API key is stored locally with restrictive permissions — never uploaded, never shared with ViljeTech.</p>
             </div>
           </div>
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>Nyckel lagras lokalt med läge 0600</h3>
-              <p>Aldrig uppladdad, aldrig loggad. Endast användarkontot har läsrättighet.</p>
+              <h3>One setting change per customer</h3>
+              <p>Different customers can have different AI contracts — switch in seconds, no redeployment.</p>
             </div>
           </div>
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>Byt per projekt eller per kund</h3>
-              <p>Olika kunder kan ha olika AI-kontrakt — en inställningsändring, omedelbar växling.</p>
+              <h3>Future-proof</h3>
+              <p>When a better model arrives, swap it in. Today's choice doesn't tie the calculator to a single provider.</p>
             </div>
           </div>
         </div>
 
         <div class="shot-frame">
-          <img src="./screenshots/06-settings-config.png" alt="Konfigurationsmodal för leverantör" />
+          <img src="./screenshots/06-settings-config.png" alt="Provider configuration modal" />
         </div>
       </div>
     </div>
   </section>
 
   <!-- 10 · ARCHITECTURE -->
-  <section class="slide" data-title="Arkitektur">
+  <section class="slide" data-title="GDPR by design">
     <div class="frame-inner">
-      <div class="slide-num">09 · Arkitektur — lokalt först</div>
-      <h2>Körs lokalt. Inga kunddata lämnar datorn.</h2>
+      <div class="slide-num">09 · GDPR by design</div>
+      <h2>Runs locally. No customer data leaves the computer.</h2>
 
-      <div class="two-col wide-left">
-        <div class="shot-frame" style="padding: 24px; background: var(--surface);">
-          <img src="./diagrams/architecture.png" alt="Systemarkitektur" style="background: var(--surface);" />
+      <div class="two-col">
+        <div class="local-callout" style="padding: 40px; font-size: 18px;">
+          <div class="label">LOCAL-FIRST</div>
+          <h3 style="font-size: 26px;">One installer on the calculator's laptop.</h3>
+          <p style="font-size: 16px; margin-top: 12px;">Drawings, BOMs and project notes live on the machine that opened them. Only the drawing image itself is sent to the chosen AI provider for analysis — nothing else is uploaded, logged or shared.</p>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 20px;">
-          <div class="local-callout">
-            <div class="label">GDPR by design</div>
-            <h3>En .exe på kalkylatorns laptop</h3>
-            <p>FastAPI-backend och React-frontend paketerat med pywebview. JSON på disk — ingen databas, ingen synk. Ritningsbilder skickas bara till vald AI-leverantör för analys.</p>
-          </div>
-
+        <div class="check-list">
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>Ingen molnlagring av kalkyldata</h3>
-              <p>Kundens projektfiler lämnar aldrig kalkylatorns maskin.</p>
+              <h3>No cloud storage of project data</h3>
+              <p>Customer drawings, quantities and price estimates never leave the calculator's machine.</p>
             </div>
           </div>
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>Transparent för användaren</h3>
-              <p>Varje utgående anrop är synligt; vald AI-leverantör är alltid explicit.</p>
+              <h3>Transparent to the user</h3>
+              <p>Every request to the AI provider is visible. The calculator always knows what's being analysed and by whom.</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <span class="tick"></span>
+            <div>
+              <h3>No subscription, no lock-in</h3>
+              <p>One-time installer. The calculator owns the software, the data, and the relationship with the AI provider.</p>
             </div>
           </div>
         </div>
@@ -773,58 +787,58 @@
   </section>
 
   <!-- 11 · ROADMAP -->
-  <section class="slide" data-title="Nästa steg">
+  <section class="slide" data-title="What's next">
     <div class="frame-inner">
-      <div class="slide-num">10 · Nästa steg</div>
-      <h2>Grunden är på plats. Fyra spår utvecklar produkten härifrån.</h2>
+      <div class="slide-num">10 · What's next</div>
+      <h2>The foundation is live. Four tracks extend the product from here.</h2>
 
       <div class="roadmap">
         <div class="road-item">
           <div class="n">01</div>
-          <h3>Multi-projekt BOM</h3>
-          <p>Delat ritningsbibliotek med separat, avgränsad BOM per projekt. Byt kund utan att blanda data.</p>
+          <h3>Multi-project BOM</h3>
+          <p>Shared drawing library with a separate, scoped BOM per project. Switch customers without mixing data.</p>
         </div>
         <div class="road-item">
           <div class="n">02</div>
-          <h3>Wikells prisintegration</h3>
-          <p>Automatisk à-pris-uppslag mot Wikells prisdatabas. BOM blir en live kostnadskalkyl.</p>
+          <h3>Wikells price integration</h3>
+          <p>Automatic unit-price lookup against the Wikells price database. The BOM becomes a live cost estimate.</p>
         </div>
         <div class="road-item">
           <div class="n">03</div>
-          <h3>Projektnivå-rollup</h3>
-          <p>Aggregera armering, betong och komponenter över alla grundplaner till en projekttotal — BOM per ritning rullar redan upp per rad idag.</p>
+          <h3>Project-level rollup views</h3>
+          <p>Aggregate rebar, concrete and components across all foundation plans into a single project total — per-sheet BOMs already roll up per row today.</p>
         </div>
         <div class="road-item">
           <div class="n">04</div>
-          <h3>Valbar SaaS-option</h3>
-          <p>För team där molnlagring är acceptabel — samma lokalt-först-produkt med ett hostat alternativ.</p>
+          <h3>Pilot with more calculators</h3>
+          <p>Three to five calculators running live projects, measuring time saved per drawing and error rate against manual takeoff.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- 12 · THANKS -->
-  <section class="slide thanks" data-title="Tack">
+  <section class="slide thanks" data-title="Thanks">
     <div class="frame-inner">
-      <div class="slide-num">11 · Tack</div>
-      <h2>Tack.</h2>
-      <p class="sub">Produkten är byggd. Arkitekturen är lokalt först. Nästa steg är fler projekt, fler kalkylatorer och prisintegration.</p>
+      <div class="slide-num">11 · Thank you</div>
+      <h2>Thank you.</h2>
+      <p class="sub">The product is built. The architecture is local-first. The next step is more projects, more calculators, and price integration.</p>
 
       <div class="contacts">
         <div class="contact">
-          <div class="role">Kundansvarig</div>
+          <div class="role">Customer lead</div>
           <div class="name">Miroslaw Staniszewski</div>
           <div class="org">Mircon Bygg</div>
           <a class="email" href="mailto:miroslaw@mirconbygg.se">miroslaw@mirconbygg.se</a>
         </div>
         <div class="contact">
-          <div class="role">Produkt &amp; partnerskap</div>
+          <div class="role">Product &amp; partnerships</div>
           <div class="name">Marcus Nordström</div>
           <div class="org">ViljeTech</div>
           <a class="email" href="mailto:marcus@viljetech.com">marcus@viljetech.com</a>
         </div>
         <div class="contact">
-          <div class="role">Teknisk ledning</div>
+          <div class="role">Technical lead</div>
           <div class="name">Deepak Varshney</div>
           <div class="org">ViljeTech</div>
           <a class="email" href="mailto:deepak@viljetech.com">deepak@viljetech.com</a>
@@ -832,8 +846,8 @@
       </div>
 
       <div class="thanks-foot">
-        <span>Körs lokalt · Inga kunddata lämnar datorn</span>
-        <span>Diagram: PlantUML · Ikoner: <a href="https://icons8.com">Icons8</a></span>
+        <span>Runs locally · No customer data leaves the computer</span>
+        <span>Diagrams: PlantUML · Icons: <a href="https://icons8.com">Icons8</a></span>
       </div>
     </div>
   </section>
@@ -876,7 +890,7 @@
     slides.forEach((s, i) => {
       const card = document.createElement('div');
       card.className = 'ov' + (i === current ? ' current' : '');
-      card.innerHTML = '<div class="ov-n">' + pad(i + 1) + ' / ' + pad(slides.length) + '</div><div class="ov-t">' + (s.dataset.title || 'Bild') + '</div>';
+      card.innerHTML = '<div class="ov-n">' + pad(i + 1) + ' / ' + pad(slides.length) + '</div><div class="ov-t">' + (s.dataset.title || 'Slide') + '</div>';
       card.addEventListener('click', () => { show(i); if (inOverview) toggleOverview(); });
       overview.appendChild(card);
     });

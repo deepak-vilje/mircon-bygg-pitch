@@ -407,9 +407,6 @@
 
 <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
 <div class="counter" id="counter">01 / 12</div>
-<div style="position:fixed;top:16px;right:32px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#5B6B82;z-index:100;">
-  Version: <span style="color:#0E2D52;font-weight:600;margin-left:8px;">Fullständig (12)</span><a style="color:#1E5AA8;margin-left:8px;" href="./pitch-sv-short.html">Kort (7)</a>
-</div>
 <div class="hint">← →  ·  O översikt  ·  F fullskärm</div>
 
 <div class="deck" id="deck">
@@ -421,8 +418,8 @@
         <div class="cover-top">ViljeTech × Mircon Bygg</div>
         <h1>AI-driven mängdavtagning från K-ritningar.</h1>
         <p class="cover-sub">
-          Ett färdigt lokalt skrivbordsverktyg som läser K-ritningar med AI-vision,
-          bygger en spårbar hierarkisk BOM och exporterar direkt till Wikells.
+          Dagar av manuell mängdavtagning blir minuter — med varje siffra spårbar
+          tillbaka till ritningen den kom från. Körs på kalkylatorns laptop; ingen molntjänst.
         </p>
       </div>
       <div class="cover-bottom">
@@ -435,8 +432,8 @@
           <span class="val">Mircon Bygg</span>
         </div>
         <div class="col">
-          <span class="label">Stack</span>
-          <span class="val">FastAPI + React · lokal skrivbordsapp</span>
+          <span class="label">Körmiljö</span>
+          <span class="val">Lokal skrivbordsapp · ingen molntjänst</span>
         </div>
       </div>
     </div>
@@ -534,20 +531,20 @@
   <section class="slide" data-title="Funktioner">
     <div class="frame-inner">
       <div class="slide-num">04 · Levererade funktioner</div>
-      <h2>Åtta funktioner, i drift idag.</h2>
+      <h2>Vad verktyget gör, klart och tydligt.</h2>
       <p class="lede" style="margin-bottom: 40px;">
-        Kalibrerade för en svensk kalkylators dagliga arbetsflöde.
+        Åtta funktioner, alla levererade och i bruk på Virket 8-piloten.
       </p>
 
       <div class="caps">
-        <div class="cap"><div class="n">01</div><h3>PDF-visare för A1-format</h3><p>2384 × 1684 pt, smidig pan och zoom, JPEG-läge som fallback.</p></div>
-        <div class="cap"><div class="n">02</div><h3>AI-visionanalys</h3><p>GPT-5.4 eller Claude Opus 4.7 med autonomt zoom-beteende.</p></div>
-        <div class="cap"><div class="n">03</div><h3>Hierarkisk BOM</h3><p>Wikells kapitelkoder, automatisk numrering, grupperade poster.</p></div>
-        <div class="cap"><div class="n">04</div><h3>Annotationsöverlägg</h3><p>Varje BOM-rad fäst mot ett område. AI och manuella markeringar i samma färgkodade lager.</p></div>
-        <div class="cap"><div class="n">05</div><h3>Korsritningsanalys</h3><p>Följer MATERIAL- och typdetaljreferenser; attribuerar kvaliteter tillbaka till källans BOM-rad.</p></div>
-        <div class="cap"><div class="n">06</div><h3>Wikells Excel-export</h3><p>Fyrbladig arbetsbok och CSV i det format kalkylatorer redan använder.</p></div>
-        <div class="cap"><div class="n">07</div><h3>Tvåspråkigt gränssnitt</h3><p>Svenska och engelska med AI-driven översättningslager.</p></div>
-        <div class="cap"><div class="n">08</div><h3>Konfigurerbar AI-leverantör</h3><p>Växla OpenAI och Anthropic per projekt från GUI:t.</p></div>
+        <div class="cap"><div class="n">01</div><h3>Öppnar A1-ritningar direkt</h3><p>Ingen omkonvertering — kalkylatorn släpper in PDF:en och börjar arbeta.</p></div>
+        <div class="cap"><div class="n">02</div><h3>AI:n läser ritningen</h3><p>Extraherar armering, betongvolymer, infästningar och detaljer direkt från PDF-sidan.</p></div>
+        <div class="cap"><div class="n">03</div><h3>BOM klar i Wikells-format</h3><p>Poster redan grupperade under Wikells kapitelkoder och numrerade — matchar kalkylatorns vanliga arbetsbok.</p></div>
+        <div class="cap"><div class="n">04</div><h3>Varje siffra pekar på ett område</h3><p>AI och manuella markeringar delar ett färgkodat lager. Ett klick hoppar från en rad till den rektangel den kommer från.</p></div>
+        <div class="cap"><div class="n">05</div><h3>Följer referenser över ritningar</h3><p>När en ritning säger "material per K-01-0-001" öppnar verktyget det bladet och läser specen själv.</p></div>
+        <div class="cap"><div class="n">06</div><h3>Excel-export i ett klick</h3><p>Fyrbladig Wikells-arbetsbok och CSV — klar att släppa in i kalkylatorns kostnadsuppskattning.</p></div>
+        <div class="cap"><div class="n">07</div><h3>Svenska som standard</h3><p>Svenska som grund, engelska ett klick bort. Svensk byggterminologi — inte översatt-från-engelska.</p></div>
+        <div class="cap"><div class="n">08</div><h3>Körs på kalkylatorns laptop</h3><p>En installation. Ingen molntjänst, ingen prenumeration, ingen uppladdning av projektfiler.</p></div>
       </div>
     </div>
   </section>
@@ -561,7 +558,7 @@
 
       <div class="two-col wide-left">
         <div class="shot-frame">
-          <img src="./screenshots/03-viewer-zoomed.png" alt="Annoterad ritningsvisare med AI-extraherade områden markerade" />
+          <img src="./screenshots/cropped/03-viewer-zoomed.png" alt="Annoterad ritningsvisare med AI-extraherade områden markerade" />
         </div>
 
         <div class="check-list">
@@ -599,7 +596,7 @@
 
       <div class="two-col wide-left">
         <div class="shot-frame">
-          <img src="./screenshots/04-bom-table.png" alt="Hierarkisk BOM-tabell" />
+          <img src="./screenshots/cropped/04-bom-table.png" alt="Hierarkisk BOM-tabell" />
         </div>
 
         <div class="check-list">
@@ -654,9 +651,9 @@
             ↓&nbsp;&nbsp;AI:n öppnar den refererade ritningen
           </div>
           <div class="local-callout" style="background: var(--accent);">
-            <div class="label">REFERERAD RITNING (följs autonomt)</div>
+            <div class="label">REFERERAD RITNING (öppnas automatiskt)</div>
             <h3>K-01-0-001 — allmänna anvisningar</h3>
-            <p>Löser upp <strong style="color:#fff;">K500 C-T</strong> lösarmeringskvalitet och <strong style="color:#fff;">NK500AB-W</strong> natarmering. Attribueras tillbaka till källritningens BOM-rader.</p>
+            <p>Läser armeringsstålets kvalitet och natarmeringens specifikation, och attribuerar dem tillbaka till rätt BOM-rader på källritningen.</p>
           </div>
           <div style="align-self: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); letter-spacing: 0.04em;">
             Syskonritning K-15-6-401 flaggas för kalkylatorn, följs inte.
@@ -691,39 +688,39 @@
   </section>
 
   <!-- 9 · CONFIGURABLE AI -->
-  <section class="slide" data-title="Konfigurerbar AI">
+  <section class="slide" data-title="Välj din AI">
     <div class="frame-inner">
-      <div class="slide-num">08 · Konfigurerbar AI-leverantör</div>
-      <h2>Byt leverantör per projekt — från GUI:t.</h2>
+      <div class="slide-num">08 · Välj din AI</div>
+      <h2>Du väljer AI:n. Dina data förblir dina.</h2>
 
       <div class="two-col">
         <div class="check-list">
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>GUI-konfiguration, ingen filredigering</h3>
-              <p>Modell, API-nyckel och max tokens ställs in från en settings-modal.</p>
+              <h3>Ingen leverantörslåsning</h3>
+              <p>Växla mellan de stora AI-leverantörerna från en enkel inställningspanel. Ingen konsult, ingen ominstallation.</p>
             </div>
           </div>
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>OpenAI eller Anthropic</h3>
-              <p>GPT-5.4-vision eller Claude Opus 4.7 — välj rätt modell för projektet.</p>
+              <h3>Inloggningsuppgifter stannar på laptopen</h3>
+              <p>Kalkylatorns API-nyckel lagras lokalt med begränsade rättigheter — aldrig uppladdad, aldrig delad med ViljeTech.</p>
             </div>
           </div>
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>Nyckel lagras lokalt med läge 0600</h3>
-              <p>Aldrig uppladdad, aldrig loggad. Endast användarkontot har läsrättighet.</p>
+              <h3>En inställningsändring per kund</h3>
+              <p>Olika kunder kan ha olika AI-avtal — växla på några sekunder, ingen omdistribution.</p>
             </div>
           </div>
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>Byt per projekt eller per kund</h3>
-              <p>Olika kunder kan ha olika AI-kontrakt — en inställningsändring, omedelbar växling.</p>
+              <h3>Framtidssäkrat</h3>
+              <p>När en bättre modell dyker upp byter man till den. Dagens val låser inte kalkylatorn till en enda leverantör.</p>
             </div>
           </div>
         </div>
@@ -736,35 +733,38 @@
   </section>
 
   <!-- 10 · ARCHITECTURE -->
-  <section class="slide" data-title="Arkitektur">
+  <section class="slide" data-title="GDPR från grunden">
     <div class="frame-inner">
-      <div class="slide-num">09 · Arkitektur — lokalt först</div>
+      <div class="slide-num">09 · GDPR från grunden</div>
       <h2>Körs lokalt. Inga kunddata lämnar datorn.</h2>
 
-      <div class="two-col wide-left">
-        <div class="shot-frame" style="padding: 24px; background: var(--surface);">
-          <img src="./diagrams/architecture.png" alt="Systemarkitektur" style="background: var(--surface);" />
+      <div class="two-col">
+        <div class="local-callout" style="padding: 40px; font-size: 18px;">
+          <div class="label">LOKALT FÖRST</div>
+          <h3 style="font-size: 26px;">En installation på kalkylatorns laptop.</h3>
+          <p style="font-size: 16px; margin-top: 12px;">Ritningar, BOM:er och projektanteckningar lever på den maskin som öppnade dem. Endast själva ritningsbilden skickas till vald AI-leverantör för analys — ingenting annat laddas upp, loggas eller delas.</p>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 20px;">
-          <div class="local-callout">
-            <div class="label">GDPR by design</div>
-            <h3>En .exe på kalkylatorns laptop</h3>
-            <p>FastAPI-backend och React-frontend paketerat med pywebview. JSON på disk — ingen databas, ingen synk. Ritningsbilder skickas bara till vald AI-leverantör för analys.</p>
-          </div>
-
+        <div class="check-list">
           <div class="check-item">
             <span class="tick"></span>
             <div>
-              <h3>Ingen molnlagring av kalkyldata</h3>
-              <p>Kundens projektfiler lämnar aldrig kalkylatorns maskin.</p>
+              <h3>Ingen molnlagring av projektdata</h3>
+              <p>Kundens ritningar, mängder och prisberäkningar lämnar aldrig kalkylatorns maskin.</p>
             </div>
           </div>
           <div class="check-item">
             <span class="tick"></span>
             <div>
               <h3>Transparent för användaren</h3>
-              <p>Varje utgående anrop är synligt; vald AI-leverantör är alltid explicit.</p>
+              <p>Varje anrop till AI-leverantören är synligt. Kalkylatorn vet alltid vad som analyseras och av vem.</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <span class="tick"></span>
+            <div>
+              <h3>Ingen prenumeration, ingen låsning</h3>
+              <p>Engångsinstallation. Kalkylatorn äger programvaran, datan och relationen till AI-leverantören.</p>
             </div>
           </div>
         </div>
@@ -796,8 +796,8 @@
         </div>
         <div class="road-item">
           <div class="n">04</div>
-          <h3>Valbar SaaS-option</h3>
-          <p>För team där molnlagring är acceptabel — samma lokalt-först-produkt med ett hostat alternativ.</p>
+          <h3>Pilot med fler kalkylatorer</h3>
+          <p>Tre till fem kalkylatorer på skarpa projekt; mäter tid sparad per ritning och felfrekvens mot manuell mängdavtagning.</p>
         </div>
       </div>
     </div>
