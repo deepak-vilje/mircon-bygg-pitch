@@ -1,0 +1,41 @@
+@startuml value-flow
+' Marketing value-flow diagram — Mircon Bygg K-drawing analysis tool
+' Icons from Icons8 (https://icons8.com) — stored in ./icons/
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Helvetica"
+skinparam defaultFontSize 14
+skinparam rectangle {
+  BackgroundColor #F3F7FC
+  BorderColor #1E5AA8
+  FontColor #0E2D52
+  RoundCorner 14
+}
+skinparam arrow {
+  Color #1E5AA8
+  FontColor #1E5AA8
+  FontSize 12
+  Thickness 2
+}
+
+title Från ritning till kalkyl — på minuter, inte dagar
+
+rectangle "<img:icons/pdf.png>\n\n**K-ritning (PDF)**\nA1, 300 DPI" as PDF
+rectangle "<img:icons/bot.png>\n\n**AI-vision**\nGPT-5.4 / Claude Opus" as AI
+rectangle "<img:icons/google-sheets.png>\n\n**Mängdförteckning (BOM)**\nWikells kapitelkoder" as BOM
+rectangle "<img:icons/microsoft-excel-2019.png>\n\n**Export**\nWikells Excel / CSV" as XLS
+
+PDF -right-> AI : läses av
+AI -right-> BOM : extraherar\nmed källspårning
+BOM -right-> XLS : kalkylatorn\nverifierar + exporterar
+
+note bottom of AI
+  ~60h pilot för
+  **Virket 8** (42 ritningar,
+  300+ positioner)
+end note
+
+legend bottom
+  **Dagar → Minuter**  |  Körs lokalt — inga kunddata lämnar datorn
+endlegend
+
+@enduml

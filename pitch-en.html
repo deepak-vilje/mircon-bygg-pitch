@@ -1,0 +1,922 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mircon Bygg × ViljeTech — AI quantity takeoff for structural drawings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink:    #0E1B2E;
+    --navy:   #0E2D52;
+    --accent: #1E5AA8;
+    --muted:  #5B6B82;
+    --rule:   #E3E9F2;
+    --surface:#F6F8FB;
+    --ok:     #2E9564;
+  }
+  *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--ink);
+    background: #FFFFFF;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+    line-height: 1.5;
+  }
+
+  .deck { position: relative; width: 100vw; height: 100vh; }
+  .slide {
+    position: absolute; inset: 0;
+    display: none;
+    opacity: 0;
+    transition: opacity 200ms ease;
+    background: #FFFFFF;
+    overflow: auto;
+  }
+  .slide.active { display: block; opacity: 1; }
+
+  .frame-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 72px 80px 88px;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Chrome */
+  .counter {
+    position: fixed; bottom: 24px; right: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--muted);
+    z-index: 100; user-select: none;
+  }
+  .hint {
+    position: fixed; bottom: 24px; left: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: #BFC9D9;
+    z-index: 100; user-select: none;
+  }
+  .progress {
+    position: fixed; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--rule); z-index: 100;
+  }
+  .progress-bar {
+    height: 100%; background: var(--accent);
+    transition: width 200ms ease;
+  }
+
+  /* Typography */
+  h1 { font-size: 64px; font-weight: 700; letter-spacing: -0.025em; line-height: 1.05; color: var(--navy); }
+  h2 { font-size: 40px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; color: var(--navy); margin-bottom: 32px; }
+  h3 { font-size: 18px; font-weight: 600; color: var(--navy); }
+  p  { font-size: 16px; color: var(--ink); line-height: 1.55; }
+  .lede { font-size: 19px; color: var(--muted); max-width: 720px; line-height: 1.55; }
+
+  .slide-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--muted);
+    margin-bottom: 32px;
+    letter-spacing: 0.02em;
+  }
+  .slide-num::before {
+    content: ""; display: inline-block;
+    width: 24px; height: 1px; background: var(--muted);
+    vertical-align: middle; margin-right: 12px;
+    transform: translateY(-2px);
+  }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Cover */
+  .cover .frame-inner {
+    justify-content: space-between;
+    padding-top: 96px; padding-bottom: 96px;
+  }
+  .cover-top {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+  .cover h1 {
+    font-size: 80px; max-width: 1000px;
+    margin-top: 16px;
+  }
+  .cover-sub {
+    font-size: 20px; color: var(--muted);
+    max-width: 680px; margin-top: 32px; line-height: 1.5;
+  }
+  .cover-bottom {
+    display: flex; gap: 64px;
+    padding-top: 40px;
+    border-top: 1px solid var(--rule);
+  }
+  .cover-bottom .col { display: flex; flex-direction: column; gap: 4px; }
+  .cover-bottom .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted); letter-spacing: 0.02em;
+  }
+  .cover-bottom .val {
+    font-size: 16px; color: var(--navy); font-weight: 500;
+  }
+
+  /* Two-column */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    flex: 1;
+    align-items: start;
+  }
+  .two-col.wide-left  { grid-template-columns: 1.2fr 0.8fr; }
+  .two-col.wide-right { grid-template-columns: 0.8fr 1.2fr; }
+
+  /* Problem list */
+  .num-list { display: flex; flex-direction: column; }
+  .num-list > li {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 20px;
+    padding: 20px 0;
+    border-top: 1px solid var(--rule);
+    list-style: none;
+  }
+  .num-list > li:last-child { border-bottom: 1px solid var(--rule); }
+  .num-list .n {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--muted);
+    padding-top: 4px;
+  }
+  .num-list h3 { margin-bottom: 6px; }
+  .num-list p  { font-size: 15px; color: var(--muted); }
+
+  .aside {
+    padding: 32px;
+    background: var(--surface);
+    border-radius: 10px;
+    border: 1px solid var(--rule);
+  }
+  .aside .stat {
+    font-size: 72px; font-weight: 700; color: var(--navy);
+    letter-spacing: -0.04em; line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .aside .stat-unit {
+    font-size: 15px; color: var(--muted); margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .aside p { margin-top: 16px; font-size: 15px; color: var(--muted); }
+
+  .quote-block {
+    margin-top: 32px;
+    padding: 20px 24px;
+    border-left: 2px solid var(--accent);
+    background: var(--surface);
+  }
+  .quote-block p {
+    font-size: 17px; color: var(--navy); font-weight: 500;
+  }
+
+  /* Diagram slide */
+  .diagram-slide .diagram-wrap {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    margin-top: 16px;
+    min-height: 360px;
+  }
+  .diagram-slide .diagram-wrap img {
+    max-width: 100%; max-height: 100%; object-fit: contain;
+  }
+
+  /* User journey */
+  .journey-wrap {
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 28px;
+    min-height: 280px;
+  }
+  .journey-wrap img { max-width: 100%; max-height: 260px; object-fit: contain; }
+  .journey-steps {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  .step {
+    padding: 24px;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    background: #FFFFFF;
+  }
+  .step .n {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .step h3 { margin-bottom: 6px; }
+  .step p { font-size: 14px; color: var(--muted); }
+
+  /* Capabilities */
+  .caps {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule);
+    border-left: 1px solid var(--rule);
+  }
+  .cap {
+    padding: 24px 28px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    display: flex; flex-direction: column; gap: 6px;
+    min-height: 110px;
+  }
+  .cap .n {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .cap h3 { font-size: 16px; }
+  .cap p { font-size: 14px; color: var(--muted); }
+
+  /* Bleed image slides */
+  .bleed { background: var(--surface); }
+  .bleed .frame-inner {
+    padding: 48px 56px;
+    justify-content: center;
+  }
+  .bleed .shot {
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    background: #FFFFFF;
+    padding: 20px;
+    display: flex; align-items: center; justify-content: center;
+    max-height: calc(100vh - 180px);
+    overflow: hidden;
+  }
+  .bleed .shot img {
+    max-width: 100%;
+    max-height: calc(100vh - 220px);
+    object-fit: contain;
+    display: block;
+  }
+  .bleed .caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--muted);
+    margin-top: 24px;
+    display: flex; gap: 16px;
+  }
+  .bleed .caption strong { color: var(--navy); font-weight: 600; }
+
+  /* Traceability / settings split */
+  .shot-frame {
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .shot-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 480px;
+    object-fit: contain;
+    background: #FFFFFF;
+  }
+
+  .check-list { display: flex; flex-direction: column; gap: 18px; }
+  .check-item {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+  .check-item .tick {
+    margin-top: 6px;
+    width: 14px; height: 14px;
+    border: 1.5px solid var(--accent);
+    border-radius: 2px;
+    position: relative;
+  }
+  .check-item .tick::after {
+    content: "";
+    position: absolute;
+    left: 3px; top: 0;
+    width: 5px; height: 9px;
+    border-right: 1.5px solid var(--accent);
+    border-bottom: 1.5px solid var(--accent);
+    transform: rotate(45deg);
+  }
+  .check-item h3 { font-size: 16px; margin-bottom: 4px; }
+  .check-item p { font-size: 14px; color: var(--muted); }
+
+  /* Architecture */
+  .local-callout {
+    padding: 24px 28px;
+    background: var(--navy);
+    color: #FFFFFF;
+    border-radius: 10px;
+  }
+  .local-callout .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: #9FB4D8;
+    margin-bottom: 10px;
+  }
+  .local-callout h3 { color: #FFFFFF; margin-bottom: 8px; font-size: 20px; }
+  .local-callout p  { color: rgba(255,255,255,0.75); font-size: 14px; }
+
+  /* Roadmap */
+  .roadmap {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 8px;
+  }
+  .road-item {
+    padding: 24px;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+  }
+  .road-item .n {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .road-item h3 { margin-bottom: 8px; }
+  .road-item p { font-size: 14px; color: var(--muted); }
+
+  /* Thanks */
+  .thanks .frame-inner { justify-content: center; padding-top: 80px; }
+  .thanks h2 { font-size: 56px; letter-spacing: -0.025em; margin-bottom: 20px; }
+  .thanks .sub { font-size: 18px; color: var(--muted); max-width: 600px; margin-bottom: 64px; }
+  .contacts {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+    padding-top: 32px; border-top: 1px solid var(--rule);
+  }
+  .contact .role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .contact .name { font-size: 18px; font-weight: 600; color: var(--navy); margin-bottom: 2px; }
+  .contact .org { font-size: 14px; color: var(--muted); }
+  .contact .email {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; color: var(--accent); margin-top: 8px;
+    display: inline-block;
+  }
+  .thanks-foot {
+    margin-top: 64px; padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted);
+    display: flex; justify-content: space-between; gap: 24px;
+  }
+
+  /* Overview grid */
+  .overview {
+    position: fixed; inset: 0;
+    background: rgba(14,27,46,0.96);
+    padding: 48px;
+    display: none;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    align-content: center;
+    overflow: auto;
+    z-index: 200;
+  }
+  .overview.active { display: grid; }
+  .ov {
+    aspect-ratio: 16/9;
+    background: #FFFFFF;
+    border-radius: 6px;
+    padding: 18px 20px;
+    cursor: pointer;
+    position: relative;
+    border: 1.5px solid transparent;
+    transition: border-color 150ms ease;
+    overflow: hidden;
+  }
+  .ov:hover, .ov.current { border-color: var(--accent); }
+  .ov .ov-n {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .ov .ov-t {
+    font-size: 15px; font-weight: 600; color: var(--navy); line-height: 1.3;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+<div class="counter" id="counter">01 / 12</div>
+<div class="hint">← →  ·  O overview  ·  F fullscreen</div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 · COVER -->
+  <section class="slide cover active" data-title="Cover">
+    <div class="frame-inner">
+      <div>
+        <div class="cover-top">ViljeTech × Mircon Bygg</div>
+        <h1>AI-powered quantity takeoff for structural drawings.</h1>
+        <p class="cover-sub">
+          A working local-first desktop tool that reads structural PDF drawings with vision AI,
+          builds a traceable hierarchical BOM, and exports directly to Wikells.
+        </p>
+      </div>
+      <div class="cover-bottom">
+        <div class="col">
+          <span class="label">Built by</span>
+          <span class="val">ViljeTech</span>
+        </div>
+        <div class="col">
+          <span class="label">Partner</span>
+          <span class="val">Mircon Bygg</span>
+        </div>
+        <div class="col">
+          <span class="label">Stack</span>
+          <span class="val">FastAPI + React · local desktop</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · PROBLEM -->
+  <section class="slide" data-title="The problem">
+    <div class="frame-inner">
+      <div class="slide-num">01 · The problem</div>
+      <h2>Quantity takeoff is days of specialist work — and a common source of calculation error.</h2>
+
+      <div class="two-col wide-left">
+        <ul class="num-list">
+          <li>
+            <span class="n">01</span>
+            <div>
+              <h3>Mid-size projects carry around 300 line items</h3>
+              <p>Virket 8 alone: 42 structural drawings, each with rebar schedules, concrete volumes, embeds and fixings to tally by hand.</p>
+            </div>
+          </li>
+          <li>
+            <span class="n">02</span>
+            <div>
+              <h3>Manual reading is slow and error-prone</h3>
+              <p>Calculators sight-read rebar diameters, concrete thickness and fastener details, then transcribe into Excel templates.</p>
+            </div>
+          </li>
+          <li>
+            <span class="n">03</span>
+            <div>
+              <h3>Revisions live in loose spreadsheets</h3>
+              <p>KPM revisions track changes across drawings; most teams keep these in ad-hoc Excel files with no link back to the drawing region.</p>
+            </div>
+          </li>
+        </ul>
+
+        <aside class="aside">
+          <div class="stat">~300</div>
+          <div class="stat-unit">line items</div>
+          <p>Per mid-size structural project. Each one has to be extracted, verified, and exported.</p>
+          <div class="quote-block">
+            <p>Let the AI take the first pass. The calculator stays in control.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · SOLUTION DIAGRAM -->
+  <section class="slide diagram-slide" data-title="The solution">
+    <div class="frame-inner">
+      <div class="slide-num">02 · The solution, in one image</div>
+      <h2>From PDF drawing to Wikells Excel in minutes.</h2>
+      <p class="lede">
+        A vision-AI pipeline reads the drawing at 300 DPI, extracts rebar, concrete and details with source traceability,
+        lets the calculator verify inline, and exports directly to Wikells.
+      </p>
+      <div class="diagram-wrap">
+        <img src="./diagrams/value-flow.png" alt="From PDF to Wikells Excel" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · USER JOURNEY -->
+  <section class="slide" data-title="User journey">
+    <div class="frame-inner">
+      <div class="slide-num">03 · User journey</div>
+      <h2>Three steps — drawing in, verified BOM out.</h2>
+
+      <div class="journey-wrap">
+        <img src="./diagrams/user-journey.png" alt="User journey" />
+      </div>
+
+      <div class="journey-steps">
+        <div class="step">
+          <div class="n">01 — Import</div>
+          <h3>Drop the K-drawing PDF</h3>
+          <p>Multi-file drop, auto-split merged PDFs, AI-assisted K-code naming. Drawing index ready in seconds.</p>
+        </div>
+        <div class="step">
+          <div class="n">02 — Analyze</div>
+          <h3>AI vision extracts the BOM</h3>
+          <p>300 DPI reading, autonomous zoom, hierarchical items with Wikells chapter codes. Every item linked to its region.</p>
+        </div>
+        <div class="step">
+          <div class="n">03 — Verify &amp; export</div>
+          <h3>Calculator verifies, exports to Wikells</h3>
+          <p>AI rows flagged for review, inline edit / accept / reject, revision history preserved. One-click Excel export.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · CAPABILITIES -->
+  <section class="slide" data-title="Capabilities">
+    <div class="frame-inner">
+      <div class="slide-num">04 · What's shipped</div>
+      <h2>Eight capabilities, in production today.</h2>
+      <p class="lede" style="margin-bottom: 40px;">
+        Calibrated for a Swedish calculator's daily workflow.
+      </p>
+
+      <div class="caps">
+        <div class="cap"><div class="n">01</div><h3>PDF viewer for A1 format</h3><p>2384 × 1684 pt with smooth pan and zoom, JPEG fallback mode.</p></div>
+        <div class="cap"><div class="n">02</div><h3>AI vision analysis</h3><p>GPT-5.4 or Claude Opus 4.7 with autonomous zoom behavior.</p></div>
+        <div class="cap"><div class="n">03</div><h3>Hierarchical BOM</h3><p>Wikells chapter codes, automatic numbering, grouped items.</p></div>
+        <div class="cap"><div class="n">04</div><h3>Annotation overlay</h3><p>Every BOM row pins to a region. AI and manual marks share one colour-coded layer.</p></div>
+        <div class="cap"><div class="n">05</div><h3>Cross-drawing analysis</h3><p>Follows MATERIAL / standard-detail references; attributes grades back to the source BOM row.</p></div>
+        <div class="cap"><div class="n">06</div><h3>Wikells Excel export</h3><p>Four-sheet workbook plus CSV in the format calculators already use.</p></div>
+        <div class="cap"><div class="n">07</div><h3>Bilingual UI</h3><p>Swedish and English with an AI-driven translation layer.</p></div>
+        <div class="cap"><div class="n">08</div><h3>Configurable AI provider</h3><p>Switch OpenAI and Anthropic per project from the GUI.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · ANNOTATION OVERLAY -->
+  <section class="slide" data-title="Annotation overlay">
+    <div class="frame-inner">
+      <div class="slide-num">05 · Annotation overlay</div>
+      <h2>See exactly what the AI saw.</h2>
+      <p class="lede">Every BOM row pins to a region on the drawing. No black-box numbers.</p>
+
+      <div class="two-col wide-left">
+        <div class="shot-frame">
+          <img src="./screenshots/03-viewer-zoomed.png" alt="Annotated drawing viewer with AI-extracted regions highlighted" />
+        </div>
+
+        <div class="check-list">
+          <div class="check-item">
+            <span class="tick"></span>
+            <div>
+              <h3>Region-linked, per row</h3>
+              <p>One click from a BOM row jumps to the exact rectangle the number came from — and back again.</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <span class="tick"></span>
+            <div>
+              <h3>Colour-coded by material type</h3>
+              <p>Rebar, concrete, fasteners, elevations, components — each layer has its own palette. Toggle off to declutter, back on for review.</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <span class="tick"></span>
+            <div>
+              <h3>AI and manual share one layer</h3>
+              <p>Calculator-drawn marks sit next to AI-proposed ones with provenance preserved; you always know which is which.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · AI ANALYSIS + TRACEABILITY -->
+  <section class="slide" data-title="Analysis &amp; traceability">
+    <div class="frame-inner">
+      <div class="slide-num">06 · AI analysis and traceability</div>
+      <h2>Every line item keeps its receipts.</h2>
+
+      <div class="two-col wide-left">
+        <div class="shot-frame">
+          <img src="./screenshots/04-bom-table.png" alt="Hierarchical BOM table" />
+        </div>
+
+        <div class="check-list">
+          <div class="check-item">
+            <span class="tick"></span>
+            <div>
+              <h3>Every BOM item links back</h3>
+              <p>To the exact drawing, page, and region it was extracted from — one click to jump to the source.</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <span class="tick"></span>
+            <div>
+              <h3>AI items flagged "needs review"</h3>
+              <p>Calculator sees at a glance which rows are AI-proposed vs. confirmed. Confidence ranking per item.</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <span class="tick"></span>
+            <div>
+              <h3>Inline verify, reject, or edit</h3>
+              <p>Keyboard-driven review. The human stays the calculator of record.</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <span class="tick"></span>
+            <div>
+              <h3>Revision history preserved</h3>
+              <p>KPM changes are tracked across drawing revisions; nothing is lost between iterations.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · CROSS-DRAWING ANALYSIS -->
+  <section class="slide" data-title="Cross-drawing analysis">
+    <div class="frame-inner">
+      <div class="slide-num">07 · Cross-drawing analysis</div>
+      <h2>The AI follows references to pull in the right numbers.</h2>
+      <p class="lede">Concrete classes, rebar grades, and standard-detail specs rarely live on the drawing in front of you. The tool reads the referenced drawing, attributes the spec back to the BOM row.</p>
+
+      <div class="two-col wide-left" style="align-items: start;">
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div class="local-callout">
+            <div class="label">SOURCE DRAWING</div>
+            <h3>K-15-6-101 — foundation section, tie-rod detail</h3>
+            <p>Shows rebar Ø16 s150 around the tie-rod, references "MATERIAL OCH ANVISNINGAR per K-01-0-001". Material grade not on this sheet.</p>
+          </div>
+          <div style="align-self: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent); letter-spacing: 0.04em;">
+            ↓&nbsp;&nbsp;AI opens the referenced drawing
+          </div>
+          <div class="local-callout" style="background: var(--accent);">
+            <div class="label">REFERENCED DRAWING (followed autonomously)</div>
+            <h3>K-01-0-001 — general notes</h3>
+            <p>Resolves <strong style="color:#fff;">K500 C-T</strong> loose-rebar quality and <strong style="color:#fff;">NK500AB-W</strong> mesh grade. Attributed to the source drawing's BOM rows.</p>
+          </div>
+          <div style="align-self: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); letter-spacing: 0.04em;">
+            Sibling K-15-6-401 flagged for the calculator, not chased.
+          </div>
+        </div>
+
+        <div class="check-list">
+          <div class="check-item">
+            <span class="tick"></span>
+            <div>
+              <h3>Autonomous cross-reference following</h3>
+              <p>When a drawing says "MATERIAL per K-01-0-001", the tool opens that sheet, reads the spec, and resumes the source extraction — no prompting needed.</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <span class="tick"></span>
+            <div>
+              <h3>Grades stored where they belong</h3>
+              <p>Rebar quality is recorded against the general drawing and attributed back to the detail's BOM rows — never invented on the detail sheet.</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <span class="tick"></span>
+            <div>
+              <h3>Siblings flagged, not chased</h3>
+              <p>Adjacent references that don't contribute to the row at hand stay flagged for the calculator — no wasted analysis budget.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · CONFIGURABLE AI -->
+  <section class="slide" data-title="Configurable AI provider">
+    <div class="frame-inner">
+      <div class="slide-num">08 · Configurable AI provider</div>
+      <h2>Swap providers per project — from the GUI.</h2>
+
+      <div class="two-col">
+        <div class="check-list">
+          <div class="check-item">
+            <span class="tick"></span>
+            <div>
+              <h3>GUI configuration, no file editing</h3>
+              <p>Model, API key, and max tokens all set from a settings modal.</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <span class="tick"></span>
+            <div>
+              <h3>OpenAI or Anthropic</h3>
+              <p>GPT-5.4 vision or Claude Opus 4.7 — pick the right model per project.</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <span class="tick"></span>
+            <div>
+              <h3>Key stored locally at mode 0600</h3>
+              <p>Never uploaded, never logged. Only the user's account has read access.</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <span class="tick"></span>
+            <div>
+              <h3>Swap per project or customer</h3>
+              <p>Different customers can have different AI contracts — one settings change, instant switch.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="shot-frame">
+          <img src="./screenshots/06-settings-config.png" alt="Provider configuration modal" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · ARCHITECTURE -->
+  <section class="slide" data-title="Architecture &amp; local-first">
+    <div class="frame-inner">
+      <div class="slide-num">09 · Architecture — local-first</div>
+      <h2>Runs locally. No customer data leaves the computer.</h2>
+
+      <div class="two-col wide-left">
+        <div class="shot-frame" style="padding: 24px; background: var(--surface);">
+          <img src="./diagrams/architecture.png" alt="System architecture" style="background: var(--surface);" />
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <div class="local-callout">
+            <div class="label">GDPR by design</div>
+            <h3>A single .exe on the calculator's laptop</h3>
+            <p>FastAPI backend and React frontend packaged with pywebview. JSON on disk — no database, no sync. Drawings are sent only to the chosen AI provider for analysis.</p>
+          </div>
+
+          <div class="check-item">
+            <span class="tick"></span>
+            <div>
+              <h3>No cloud storage of calculation data</h3>
+              <p>Customer project files never leave the calculator's machine.</p>
+            </div>
+          </div>
+          <div class="check-item">
+            <span class="tick"></span>
+            <div>
+              <h3>Transparent to the user</h3>
+              <p>Every outbound request is visible; the chosen AI provider is always explicit.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · ROADMAP -->
+  <section class="slide" data-title="What's next">
+    <div class="frame-inner">
+      <div class="slide-num">10 · What's next</div>
+      <h2>The foundation is live. Four tracks extend the product from here.</h2>
+
+      <div class="roadmap">
+        <div class="road-item">
+          <div class="n">01</div>
+          <h3>Multi-project BOM</h3>
+          <p>Shared drawing library with a separate, scoped BOM per project. Switch customers without mixing data.</p>
+        </div>
+        <div class="road-item">
+          <div class="n">02</div>
+          <h3>Wikells price integration</h3>
+          <p>Automatic unit-price lookup against the Wikells price database. The BOM becomes a live cost estimate.</p>
+        </div>
+        <div class="road-item">
+          <div class="n">03</div>
+          <h3>Project-level rollup views</h3>
+          <p>Aggregate rebar, concrete and components across all foundation plans into a single project total — per-sheet BOMs already roll up per row today.</p>
+        </div>
+        <div class="road-item">
+          <div class="n">04</div>
+          <h3>Optional SaaS mode</h3>
+          <p>For teams where cloud storage is acceptable — the same local-first product with a hosted option.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · THANKS -->
+  <section class="slide thanks" data-title="Thanks">
+    <div class="frame-inner">
+      <div class="slide-num">11 · Thank you</div>
+      <h2>Thank you.</h2>
+      <p class="sub">The product is built. The architecture is local-first. The next step is more projects, more calculators, and price integration.</p>
+
+      <div class="contacts">
+        <div class="contact">
+          <div class="role">Customer lead</div>
+          <div class="name">Miroslaw Staniszewski</div>
+          <div class="org">Mircon Bygg</div>
+          <a class="email" href="mailto:miroslaw@mirconbygg.se">miroslaw@mirconbygg.se</a>
+        </div>
+        <div class="contact">
+          <div class="role">Product &amp; partnerships</div>
+          <div class="name">Marcus Nordström</div>
+          <div class="org">ViljeTech</div>
+          <a class="email" href="mailto:marcus@viljetech.com">marcus@viljetech.com</a>
+        </div>
+        <div class="contact">
+          <div class="role">Technical lead</div>
+          <div class="name">Deepak Varshney</div>
+          <div class="org">ViljeTech</div>
+          <a class="email" href="mailto:deepak@viljetech.com">deepak@viljetech.com</a>
+        </div>
+      </div>
+
+      <div class="thanks-foot">
+        <span>Runs locally · No customer data leaves the computer</span>
+        <span>Diagrams: PlantUML · Icons: <a href="https://icons8.com">Icons8</a></span>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="overview" id="overview"></div>
+
+<script>
+(function() {
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const counter = document.getElementById('counter');
+  const progressBar = document.getElementById('progressBar');
+  const overview = document.getElementById('overview');
+  let current = 0;
+  let inOverview = false;
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function show(i) {
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    slides[current].classList.remove('active');
+    current = i;
+    slides[current].classList.add('active');
+    slides[current].scrollTop = 0;
+    counter.textContent = pad(current + 1) + ' / ' + pad(slides.length);
+    progressBar.style.width = ((current + 1) / slides.length * 100) + '%';
+    if (inOverview) renderOverview();
+  }
+  function next() { if (current < slides.length - 1) show(current + 1); }
+  function prev() { if (current > 0) show(current - 1); }
+
+  function toggleOverview() {
+    inOverview = !inOverview;
+    if (inOverview) { renderOverview(); overview.classList.add('active'); }
+    else { overview.classList.remove('active'); }
+  }
+  function renderOverview() {
+    overview.innerHTML = '';
+    slides.forEach((s, i) => {
+      const card = document.createElement('div');
+      card.className = 'ov' + (i === current ? ' current' : '');
+      card.innerHTML = '<div class="ov-n">' + pad(i + 1) + ' / ' + pad(slides.length) + '</div><div class="ov-t">' + (s.dataset.title || 'Slide') + '</div>';
+      card.addEventListener('click', () => { show(i); if (inOverview) toggleOverview(); });
+      overview.appendChild(card);
+    });
+  }
+
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+    else document.exitFullscreen();
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || (e.key === ' ' && !e.shiftKey)) { e.preventDefault(); next(); }
+    else if (e.key === 'ArrowLeft' || (e.key === ' ' && e.shiftKey)) { e.preventDefault(); prev(); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(slides.length - 1);
+    else if (e.key === 'o' || e.key === 'O' || e.key === 'Escape') { e.preventDefault(); toggleOverview(); }
+    else if (e.key === 'f' || e.key === 'F') { e.preventDefault(); toggleFullscreen(); }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (inOverview) return;
+    if (e.target.closest('a')) return;
+    const x = e.clientX, w = window.innerWidth;
+    if (x < w * 0.25) prev();
+    else if (x > w * 0.75) next();
+  });
+
+  show(0);
+})();
+</script>
+</body>
+</html>

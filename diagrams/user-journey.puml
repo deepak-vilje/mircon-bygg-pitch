@@ -1,0 +1,41 @@
+@startuml user-journey
+' Marketing user journey — Mircon Bygg K-drawing analysis tool
+' Icons from Icons8 (https://icons8.com) — stored in ./icons/
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Helvetica"
+skinparam defaultFontSize 14
+skinparam rectangle {
+  BackgroundColor #FFFFFF
+  BorderColor #1E5AA8
+  FontColor #0E2D52
+  RoundCorner 12
+}
+skinparam arrow {
+  Color #1E5AA8
+  Thickness 2
+  FontSize 12
+}
+
+title Användarresan — tre steg från ritning till kalkyl
+
+rectangle "**1. Ladda upp ritning**\n\n<img:icons/upload.png>\n\nKalkylatorn drar in\nPDF:en i appen." as S1
+rectangle "**2. AI analyserar**\n\n<img:icons/sparkling.png>\n\nVerktyget zoomar\nautonomt och extraherar\narmering, betong, detaljer." as S2
+rectangle "**3. Verifiera & exportera**\n\n<img:icons/checkmark.png>\n\nKalkylatorn verifierar\npost-för-post och\nexporterar till Wikells Excel." as S3
+
+actor "<img:icons/user.png>\n**Kalkylatorn**\n(Miroslaw)" as USER
+
+USER --> S1
+S1 -right-> S2
+S2 -right-> S3
+
+note bottom of S2
+  **AI-assistent + källspårning**
+  Varje post länkar tillbaka till
+  exakt ritning, sida och område.
+end note
+
+legend bottom
+  ~60 hours pilot build  |  Icons: Icons8  |  Körs lokalt på användarens laptop
+endlegend
+
+@enduml

@@ -1,0 +1,59 @@
+@startuml architecture
+' High-level architecture — Mircon Bygg K-drawing analysis tool
+' Icons from Icons8 (https://icons8.com) — stored in ./icons/
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Helvetica"
+skinparam defaultFontSize 13
+skinparam componentStyle rectangle
+skinparam rectangle {
+  BackgroundColor #F3F7FC
+  BorderColor #1E5AA8
+  FontColor #0E2D52
+  RoundCorner 10
+}
+skinparam package {
+  BackgroundColor #EAF1FA
+  BorderColor #1E5AA8
+  FontColor #0E2D52
+  FontStyle bold
+}
+skinparam arrow {
+  Color #1E5AA8
+  FontColor #444444
+  FontSize 11
+}
+
+title Systemöversikt — allt körs lokalt på kalkylatorns laptop
+
+actor "<img:icons/user.png>\n**Kalkylator**" as USER
+
+package "Kalkylatorns laptop <img:icons/laptop.png>" {
+  package "Skrivbordsapp (pywebview)" {
+    rectangle "**Frontend**\nReact + TypeScript\nKonva (annotation)\nTanStack (BOM)" as FE
+    rectangle "**Backend**\nFastAPI (Python)\nPDF-rendering\nBOM-logik" as BE
+    rectangle "**Lokal lagring**\nJSON-filer\n(ingen databas)\nnycklar 0600" as STATE
+  }
+  FE <-right-> BE : HTTP (127.0.0.1)
+  BE -down-> STATE : läser/skriver
+}
+
+cloud "AI-leverantör\n(valfri, GUI-konfigurerad)" as CLOUD {
+  rectangle "OpenAI GPT-5.4" as OAI
+  rectangle "Anthropic Claude\nOpus 4.7" as ANT
+}
+
+USER -right-> FE : öppnar ritning,\nverifierar BOM
+BE -up-> CLOUD : skickar ritningsbild\nför AI-analys
+CLOUD -down-> BE : strukturerade\nmängddata
+
+note right of STATE
+  Inga kunddata
+  lämnar datorn utöver
+  AI-anropen.
+end note
+
+legend bottom
+  **Körs lokalt** — inga kunddata lämnar datorn  |  Icons: Icons8
+endlegend
+
+@enduml
